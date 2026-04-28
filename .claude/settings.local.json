@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(docker --version)",
+      "Bash(python -m venv .venv)",
+      "Bash(.venv/Scripts/pip install *)",
+      "Bash(npm install *)",
+      "Bash(.venv/Scripts/python -m alembic upgrade head)",
+      "Bash(.venv/Scripts/python -c ' *)",
+      "Bash(.venv/Scripts/python -m app.scripts.create_admin)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\user\\Desktop\\kwork\\backend\\app"
+    ]
+  }
+}

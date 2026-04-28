@@ -1,0 +1,176 @@
+.page {
+  max-width: 1100px;
+}
+
+.topBar {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.heading {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.total {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters > * {
+  min-width: 160px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.table th {
+  background: var(--color-surface);
+  text-align: left;
+  padding: 10px 14px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: var(--color-surface);
+}
+
+.rowOverdue td {
+  background: #fff5f5;
+}
+.rowOverdue:hover td {
+  background: #fee2e2 !important;
+}
+.overdueDate {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.workType {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.nextBtn {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.nextBtn:hover { opacity: 0.85; }
+.nextBtn:disabled { opacity: 0.5; cursor: default; }
+
+.done {
+  color: #16a34a;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.link {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+.link:hover { text-decoration: underline; }
+
+.fileCount {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 40px;
+  font-size: var(--font-size-sm);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.pageBtn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+.pageBtn:disabled { opacity: 0.4; cursor: default; }
+.pageBtn:not(:disabled):hover { background: var(--color-surface-hover); }
+
+.pageInfo {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  opacity: 0.4;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  transition: opacity 0.15s;
+}
+.deleteBtn:hover { opacity: 1; background: #fee2e2; }
+.deleteBtn:disabled { cursor: default; opacity: 0.2; }

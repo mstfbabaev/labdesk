@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(taskkill /F /FI \"WINDOWTITLE eq uvicorn*\")",
+      "Bash(taskkill /F /FI \"IMAGENAME eq python.exe\" /FI \"WINDOWTITLE eq *uvicorn*\")",
+      "Bash(curl -s -X POST http://localhost:8000/api/v1/auth/login -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"admin@dental.local\\\\\",\\\\\"password\\\\\":\\\\\"admin123\\\\\"}\")",
+      "Bash(.venv/Scripts/uvicorn app.main:app --port 8000)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :8000)",
+      "Bash(findstr LISTENING)",
+      "Bash(taskkill /F /PID 2640 /PID 11360)",
+      "PowerShell(Stop-Process -Id 2640 -Force)",
+      "PowerShell(Stop-Process -Id 11360 -Force)",
+      "Bash(curl -s http://localhost:8000/health)",
+      "Bash(curl -s http://localhost:8000/openapi.json)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d['components']['schemas']['LoginRequest'], indent=2\\)\\)\")",
+      "Bash(Remove-Item -Recurse -Force \"c:/Users/user/Desktop/kwork/backend/app/schemas/__pycache__\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id \\(Get-NetTCPConnection -LocalPort 8000 -State Listen\\).OwningProcess -Force -ErrorAction SilentlyContinue; Write-Output \"killed\")",
+      "Bash(.venv/Scripts/python -c ' *)",
+      "Bash(curl -s -X POST http://localhost:8000/api/v1/auth/login -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"admin@dentallab.com\\\\\",\\\\\"password\\\\\":\\\\\"admin123\\\\\"}\")",
+      "Bash(python -c ' *)",
+      "Bash(curl -s -X POST http://localhost:8000/api/v1/auth/login -H \"Content-Type: application/json\" -d '{\"email\":\"admin@dentallab.com\",\"password\":\"admin123\"}')",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('access_token','ERROR:',d\\)[:200]\\)\")",
+      "Bash(curl -s -X POST http://localhost:8000/api/v1/auth/login -H \"Content-Type: application/json\" -d '{\"email\":\"babayka20071104@gmail.com\",\"password\":\"doctor123\"}')",
+      "Bash(curl -s -X PUT \"http://localhost:9000/dental-files/orders/test/test.zip?X-Amz-Algorithm=test\" -H \"Origin: http://localhost:5173\" -H \"Access-Control-Request-Method: PUT\" -v)",
+      "Bash(curl -s -I -X OPTIONS \"http://localhost:9000/dental-files/\" -H \"Origin: http://localhost:5173\" -H \"Access-Control-Request-Method: PUT\" -H \"Access-Control-Request-Headers: content-type\")",
+      "Bash(curl -v -X OPTIONS \"http://localhost:9000/dental-files/\" -H \"Origin: http://localhost:5173\" -H \"Access-Control-Request-Method: PUT\" -H \"Access-Control-Request-Headers: content-type\")",
+      "Read(//c/Users/user/Desktop/**)",
+      "Read(//c/Users/user/**)",
+      "Bash(curl -s http://localhost:9000/minio/health/live)",
+      "Bash(curl -sv -X OPTIONS http://localhost:9000/dental-files/ -H 'Origin: http://localhost:5173' -H 'Access-Control-Request-Method: PUT' -H 'Access-Control-Request-Headers: content-type')",
+      "Bash(\"c:\\\\Users\\\\user\\\\Desktop\\\\LabDesk\\\\backend\\\\.venv\\\\Scripts\\\\python.exe\" -m uvicorn app.main:app --reload --port 8000)",
+      "Bash(.venv/Scripts/python.exe -m uvicorn app.main:app --reload --port 8000)",
+      "Bash(.venv\\\\Scripts\\\\pip install *)",
+      "PowerShell(Set-Location \"C:\\\\Users\\\\user\\\\Desktop\\\\LabDesk\\\\backend\"; & \".\\\\.venv\\\\Scripts\\\\pip.exe\" install \"celery[redis]\" httpx psycopg2-binary; Write-Host \"Exit: $LASTEXITCODE\")",
+      "Read(//c/Users/user/Desktop/LabDesk/backend/.venv/Scripts/**)",
+      "PowerShell(netstat -ano)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\user\\Desktop"
+    ]
+  }
+}

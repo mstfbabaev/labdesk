@@ -1,0 +1,235 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef0f5;
+}
+
+/* ── Big centered card ── */
+.card {
+  display: flex;
+  width: 860px;
+  min-height: 480px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 16px 48px rgba(0,0,0,0.10);
+}
+
+/* ── LEFT: Form panel ── */
+.left {
+  flex: 1;
+  padding: 52px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+.greeting {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 36px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: none;
+  border-bottom: 1.5px solid var(--color-border);
+  border-radius: 0;
+  font-size: 14px;
+  color: var(--color-text);
+  background: transparent;
+  outline: none;
+  transition: border-color 0.18s;
+}
+
+.input::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.input:focus {
+  border-bottom-color: var(--color-primary);
+}
+
+.passwordWrap {
+  position: relative;
+}
+
+.passwordWrap .input {
+  padding-right: 80px;
+}
+
+.showBtn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 4px 0;
+  font-family: inherit;
+}
+
+.showBtn:hover {
+  text-decoration: underline;
+}
+
+.error {
+  font-size: 13px;
+  color: var(--color-danger);
+  background: var(--color-danger-light);
+  padding: 9px 12px;
+  border-radius: 7px;
+}
+
+.btn {
+  height: 44px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+.powered {
+  font-size: 12px;
+  color: var(--color-text-placeholder);
+  margin-top: 24px;
+}
+
+.powered a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.powered a:hover {
+  color: var(--color-primary);
+}
+
+/* ── RIGHT: Brand image panel ── */
+.right {
+  width: 380px;
+  flex-shrink: 0;
+  background: linear-gradient(145deg, #fdf2ec 0%, #fae5d8 40%, #f5cdb8 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* decorative circles */
+.right::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(194, 68, 14, 0.08);
+  pointer-events: none;
+}
+
+.right::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(194, 68, 14, 0.06);
+  pointer-events: none;
+}
+
+.rightLogo {
+  width: 220px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.rightTagline {
+  font-size: 15px;
+  color: rgba(100, 40, 10, 0.55);
+  text-align: center;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 700px) {
+  .card { flex-direction: column; width: 100%; min-height: auto; border-radius: 0; }
+  .right { width: 100%; padding: 32px 24px; }
+  .left  { padding: 36px 24px; }
+}

@@ -1,0 +1,118 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.overlay.fadeOut {
+  animation: fadeOut 0.4s ease forwards;
+}
+
+/* subtle mesh background */
+.overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(194, 68, 14, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(194, 68, 14, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ---- Logo ---- */
+.logoImg {
+  width: 260px;
+  height: auto;
+  animation: logoPulse 2.4s ease-in-out infinite;
+}
+
+
+/* ---- Texts ---- */
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.8px;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.3px;
+  margin-top: -8px;
+}
+
+/* ---- Dots loader ---- */
+.dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  opacity: 0.2;
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ---- Version / brand ---- */
+.brand {
+  position: absolute;
+  bottom: 28px;
+  font-size: 12px;
+  color: var(--color-text-placeholder);
+  letter-spacing: 0.2px;
+}
+
+/* ---- Keyframes ---- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes logoPulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(194, 68, 14, 0.30), 0 2px 6px rgba(194, 68, 14, 0.20); }
+  50%       { box-shadow: 0 12px 32px rgba(194, 68, 14, 0.45), 0 2px 8px rgba(194, 68, 14, 0.25); }
+}
+
+@keyframes ringExpand {
+  0%   { opacity: 0.6; transform: scale(1); }
+  60%  { opacity: 0;   transform: scale(1.35); }
+  100% { opacity: 0;   transform: scale(1.35); }
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.85); }
+  40%           { opacity: 1;   transform: scale(1.1); }
+}
