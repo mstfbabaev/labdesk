@@ -1,8 +1,10 @@
 import axios from 'axios'
 
+const BASE = import.meta.env.VITE_API_URL || '/api/v1'
+
 const api = axios.create({
-  baseURL: '/api/v1',
-  withCredentials: true, // sends refresh_token cookie
+  baseURL: BASE,
+  withCredentials: true,
 })
 
 let accessToken = null
@@ -53,7 +55,7 @@ api.interceptors.response.use(
       isRefreshing = true
 
       try {
-        const res = await axios.post('/api/v1/auth/refresh', {}, { withCredentials: true })
+        const res = await axios.post(`${BASE}/auth/refresh`, {}, { withCredentials: true })
         const newToken = res.data.access_token
         setAccessToken(newToken)
         processQueue(null, newToken)
