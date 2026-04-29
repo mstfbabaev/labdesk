@@ -63,25 +63,15 @@ export default function AdminDashboardPage() {
         <div className={`${styles.statCard} ${stats?.ready > 0 ? styles.statCardReady : ''}`}>
           <span className={styles.statIcon}>✅</span>
           <span className={styles.statVal}>{stats?.ready ?? 0}</span>
-          <span className={styles.statLabel}>Готовы к выдаче</span>
+          <span className={styles.statLabel}>Отправлены в клинику</span>
           <Link to="/admin/orders" className={styles.statAction}>Открыть →</Link>
         </div>
-        <div className={styles.statCard}>
-          <span className={styles.statIcon}>📦</span>
-          <span className={styles.statVal}>{stats?.issued ?? 0}</span>
-          <span className={styles.statLabel}>Выданы</span>
-          <Link to="/admin/orders" className={styles.statAction}>Открыть →</Link>
-        </div>
-        <div className={`${styles.statCard} ${stats?.overdue > 0 ? styles.statCardOverdue : ''}`}>
-          <span className={styles.statIcon}>⚠️</span>
-          <span className={styles.statVal}>{stats?.overdue ?? 0}</span>
-          <span className={styles.statLabel}>Просрочены</span>
-          <Link to="/admin/orders" className={styles.statAction}>Открыть →</Link>
-        </div>
+
         <div className={styles.statCard}>
           <span className={styles.statIcon}>📎</span>
-          <span className={styles.statVal}>{stats?.total_files ?? 0}</span>
-          <span className={styles.statLabel}>Всего файлов</span>
+          <span className={styles.statVal}>{stats?.issued ?? 0}</span>
+          <span className={styles.statLabel}>Архив завершённых работ</span>
+          <Link to="/admin/orders?status=issued" className={styles.statAction}>Открыть →</Link>
         </div>
       </div>
 
@@ -90,7 +80,7 @@ export default function AdminDashboardPage() {
         {readyOrders?.items?.length > 0 && (
           <div className={styles.panel}>
             <div className={styles.panelHeader}>
-              <h2 className={styles.panelTitle}>Готовы к выдаче</h2>
+              <h2 className={styles.panelTitle}>Отправлены в клинику</h2>
               <Link to="/admin/orders" className={styles.panelLink}>Все заказы →</Link>
             </div>
             <div className={styles.orderList}>

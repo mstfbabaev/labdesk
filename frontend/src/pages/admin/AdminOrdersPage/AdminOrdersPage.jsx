@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import * as XLSX from 'xlsx'
 import { getOrders, updateOrderStatus, deleteOrder } from '../../../services/orderService'
@@ -89,7 +89,15 @@ function exportToExcel(orders) {
 
 export default function AdminOrdersPage() {
   const qc = useQueryClient()
-  const [filters, setFilters] = useState({ status: '', doctor_id: '', date_from: '', date_to: '', sort_by: 'created_at', order: 'desc' })
+  const [searchParams] = useSearchParams()
+  const [filters, setFilters] = useState({
+    status: searchParams.get('status') || '',
+    doctor_id: '',
+    date_from: '',
+    date_to: '',
+    sort_by: 'created_at',
+    order: 'desc',
+  })
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [selected, setSelected] = useState(new Set())
