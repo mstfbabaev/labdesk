@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import * as XLSX from 'xlsx'
 import { getOrders, updateOrderStatus, deleteOrder } from '../../../services/orderService'
 import { getUsers } from '../../../services/userService'
 import Badge from '../../../components/ui/Badge/Badge'
@@ -16,6 +17,13 @@ const STATUS_OPTIONS = [
   { value: 'ready', label: 'Готов' },
   { value: 'issued', label: 'Выдан' },
 ]
+
+const STATUS_LABELS = {
+  new: 'Новый',
+  in_progress: 'В работе',
+  ready: 'Готов',
+  issued: 'Выдан',
+}
 
 const STATUS_NEXT = {
   new:         { value: 'in_progress', label: 'В работе' },
@@ -33,11 +41,58 @@ function isOverdue(order) {
   return new Date(order.delivery_date) < new Date(new Date().setHours(0, 0, 0, 0))
 }
 
+function exportToExcel(orders) {
+  const wb = XLSX.utils.book_new()
+
+  // Group by patient
+  const byPatient = {}
+  orders.forEach(o => {
+    const key = o.patient_name
+    if (!byPatient[key]) byPatient[key] = []
+    byPatient[key].push(o)
+  })
+
+  const patients = Object.keys(byPatient)
+
+  if (patients.length === 1) {
+    // One sheet named after the patient
+    const rows = byPatient[patients[0]].map(o => ({
+      'Пациент':     o.patient_name,
+      'Тип работы':  o.work_type,
+      'Врач':        o.doctor?.full_name || '',
+      'Дата сдачи':  formatDate(o.delivery_date),
+      'Статус':      STATUS_LABELS[o.status] || o.status,
+      'Создан':      formatDate(o.created_at),
+      'Файлы':       o.file_count || 0,
+    }))
+    const ws = XLSX.utils.json_to_sheet(rows)
+    ws['!cols'] = [20, 22, 22, 14, 12, 14, 8].map(w => ({ wch: w }))
+    XLSX.utils.book_append_sheet(wb, ws, patients[0].slice(0, 31))
+  } else {
+    // One sheet with all patients
+    const rows = orders.map(o => ({
+      'Пациент':     o.patient_name,
+      'Тип работы':  o.work_type,
+      'Врач':        o.doctor?.full_name || '',
+      'Дата сдачи':  formatDate(o.delivery_date),
+      'Статус':      STATUS_LABELS[o.status] || o.status,
+      'Создан':      formatDate(o.created_at),
+      'Файлы':       o.file_count || 0,
+    }))
+    const ws = XLSX.utils.json_to_sheet(rows)
+    ws['!cols'] = [20, 22, 22, 14, 12, 14, 8].map(w => ({ wch: w }))
+    XLSX.utils.book_append_sheet(wb, ws, 'Заказы')
+  }
+
+  XLSX.writeFile(wb, `labdesk_export_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.xlsx`)
+}
+
 export default function AdminOrdersPage() {
   const qc = useQueryClient()
   const [filters, setFilters] = useState({ status: '', doctor_id: '', date_from: '', date_to: '', sort_by: 'created_at', order: 'desc' })
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
+  const [selected, setSelected] = useState(new Set())
 
   const { data, isLoading } = useQuery({
     queryKey: ['orders', filters, search, page],
@@ -72,12 +127,40 @@ export default function AdminOrdersPage() {
 
   const set = (key, val) => { setFilters(f => ({ ...f, [key]: val })); setPage(1) }
 
+  const items = data?.items || []
+  const allIds = items.map(o => o.id)
+  const allChecked = allIds.length > 0 && allIds.every(id => selected.has(id))
+  const someChecked = allIds.some(id => selected.has(id))
+
+  const toggleAll = () => {
+    if (allChecked) {
+      setSelected(prev => { const s = new Set(prev); allIds.forEach(id => s.delete(id)); return s })
+    } else {
+      setSelected(prev => new Set([...prev, ...allIds]))
+    }
+  }
+
+  const toggleOne = (id) => {
+    setSelected(prev => {
+      const s = new Set(prev)
+      s.has(id) ? s.delete(id) : s.add(id)
+      return s
+    })
+  }
+
+  const selectedOrders = items.filter(o => selected.has(o.id))
+
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
         <h1 className={styles.heading}>Все заказы</h1>
         {data?.total !== undefined && (
           <span className={styles.total}>Найдено: {data.total}</span>
+        )}
+        {selected.size > 0 && (
+          <button className={styles.exportBtn} onClick={() => exportToExcel(selectedOrders)}>
+            ↓ Excel ({selected.size})
+          </button>
         )}
       </div>
 
@@ -112,6 +195,15 @@ export default function AdminOrdersPage() {
             <table className={styles.table}>
               <thead>
                 <tr>
+                  <th className={styles.checkCol}>
+                    <input
+                      type="checkbox"
+                      checked={allChecked}
+                      ref={el => { if (el) el.indeterminate = someChecked && !allChecked }}
+                      onChange={toggleAll}
+                      className={styles.checkbox}
+                    />
+                  </th>
                   <th>Пациент</th>
                   <th>Тип работы</th>
                   <th>Врач</th>
@@ -124,11 +216,20 @@ export default function AdminOrdersPage() {
                 </tr>
               </thead>
               <tbody>
-                {data?.items?.map(order => {
+                {items.map(order => {
                   const overdue = isOverdue(order)
                   const next = STATUS_NEXT[order.status]
+                  const checked = selected.has(order.id)
                   return (
-                    <tr key={order.id} className={overdue ? styles.rowOverdue : ''}>
+                    <tr key={order.id} className={`${overdue ? styles.rowOverdue : ''} ${checked ? styles.rowSelected : ''}`}>
+                      <td className={styles.checkCol}>
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => toggleOne(order.id)}
+                          className={styles.checkbox}
+                        />
+                      </td>
                       <td>
                         <Link to={`/admin/orders/${order.id}`} className={styles.link}>
                           {order.patient_name}
@@ -172,7 +273,7 @@ export default function AdminOrdersPage() {
             </table>
           </div>
 
-          {!data?.items?.length && <p className={styles.empty}>Заказов не найдено</p>}
+          {!items.length && <p className={styles.empty}>Заказов не найдено</p>}
 
           {data?.total > 20 && (
             <div className={styles.pagination}>

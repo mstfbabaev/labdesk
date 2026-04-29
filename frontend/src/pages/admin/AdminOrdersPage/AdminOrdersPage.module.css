@@ -174,3 +174,34 @@
 }
 .deleteBtn:hover { opacity: 1; background: #fee2e2; }
 .deleteBtn:disabled { cursor: default; opacity: 0.2; }
+
+.checkCol {
+  width: 40px;
+  text-align: center;
+  padding: 0 8px !important;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+.rowSelected td {
+  background: #eff6ff !important;
+}
+
+.exportBtn {
+  margin-left: auto;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 7px 16px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.exportBtn:hover { opacity: 0.85; }
